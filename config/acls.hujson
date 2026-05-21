@@ -1,0 +1,45 @@
+{
+  "groups": {
+    "group:admins": ["namoadmin"],
+    "group:monitoring": ["headscale"],
+    "group:employee": ["namoworker"],
+    "group:janitor": ["namocleaner"]
+  },
+
+  "tagOwners": {
+    "tag:subnet-router": ["group:admins"]
+  },
+
+  "hosts": {
+    "office-subnet": "192.168.10.0/24",
+    "toilet-subnet": "192.168.20.0/24"
+  },
+
+  "acls": [
+    {
+      "action": "accept",
+      "src": ["group:employee"],
+      "dst": ["office-subnet:*"]
+    },
+    {
+      "action": "accept",
+      "src": ["group:janitor"],
+      "dst": ["toilet-subnet:*"]
+    },
+    {
+      "action": "accept",
+      "src": ["group:admins"],
+      "dst": ["*:*"]
+    },
+    {
+      "action": "accept",
+      "src": ["group:monitoring"],
+      "dst": ["*:5252"]
+    },
+    {
+      "action": "accept",
+      "src": ["*"],
+      "dst": ["*:53"]
+    }
+  ]
+}

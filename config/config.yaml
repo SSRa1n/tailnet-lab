@@ -1,0 +1,52 @@
+# Headscale server configuration for the standalone tailscale stack.
+#
+# Update server_url to the host IP or DNS name that your Tailscale clients
+# can reach. For local testing, http://localhost:8100 is fine.
+
+server_url: http://localhost:8100
+
+listen_addr: 0.0.0.0:8100
+metrics_listen_addr: 0.0.0.0:9090
+grpc_listen_addr: 0.0.0.0:50443
+grpc_allow_insecure: true
+
+noise:
+  private_key_path: /var/lib/headscale/noise_private.key
+
+prefixes:
+  v4: 100.64.0.0/10
+  v6: fd7a:115c:a1e0::/48
+  allocation: sequential
+
+database:
+  type: sqlite
+  sqlite:
+    path: /var/lib/headscale/db.sqlite
+
+disable_check_updates: true
+ephemeral_node_inactivity_timeout: 30m
+
+dns:
+  magic_dns: true
+  base_domain: tailnet.local
+  nameservers:
+    global:
+      - 1.1.1.1
+      - 8.8.8.8
+  override_local_dns: false
+
+derp:
+  server:
+    enabled: false
+  urls:
+    - https://controlplane.tailscale.com/derpmap/default
+  auto_update_enabled: true
+  update_frequency: 24h
+
+policy:
+  # mode: file
+  # path: /etc/headscale/acls.hujson
+  mode: database
+log:
+  level: info
+  format: text

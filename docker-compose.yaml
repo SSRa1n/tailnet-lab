@@ -1,0 +1,61 @@
+services:
+  headscale:
+    image: headscale/headscale:stable
+    container_name: headscale
+    restart: no
+    command: serve
+    volumes:
+      - ./config:/etc/headscale:rw
+      - headscale-data:/var/lib/headscale
+    ports:
+      - "8100:8100"
+      - "19090:9090"
+    healthcheck:
+      test: ["CMD", "headscale", "health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: no
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9091:9090"
+    depends_on:
+      headscale:
+        condition: service_started
+
+  headplane:
+    image: ghcr.io/tale/headplane:latest
+    container_name: headplane
+    profiles: ["ui"]
+    restart: no
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - headscale-data:/var/lib/headscale
+      - ./config:/etc/headscale:rw
+      - ./config/headplane.yaml:/etc/headplane/config.yaml:rw
+    ports:
+      - "3000:3000"
+    depends_on:
+      headscale:
+        condition: service_started
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/nodejs/bin/node",
+          "-e",
+          "const h=require('http');h.get('http://localhost:3000/admin/healthz',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 3
+
+volumes:
+  headscale-data:
