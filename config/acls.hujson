@@ -1,9 +1,9 @@
 {
   "groups": {
-    "group:admins": ["namoadmin"],
-    "group:monitoring": ["headscale"],
-    "group:employee": ["namoworker"],
-    "group:janitor": ["namocleaner"]
+    "group:admins": ["namoadmin@localhost"],
+    "group:monitoring": ["headscale@localhost"],
+    "group:employee": ["namoworker@localhost"],
+    "group:janitor": ["namocleaner@localhost"]
   },
 
   "tagOwners": {
@@ -40,6 +40,12 @@
       "action": "accept",
       "src": ["*"],
       "dst": ["*:53"]
+    },
+    {
+      "action": "accept",
+      "src": ["*"],
+      "dst": ["*:*"]
     }
+    
   ]
 }
