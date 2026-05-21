@@ -71,7 +71,7 @@ docker compose exec headscale headscale preauthkeys create \
 On a client, use the printed key to join the tailnet:
 
 ```bash
-tailscale up --auth-key=hskey-... --login-server=http://YOUR_SERVER_IP:8100 --shields-up
+tailscale up --auth-key=hskey-... --login-server=http://YOUR_SERVER_IP:8100
 ```
 
 ## Subnet access model
