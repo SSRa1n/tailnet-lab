@@ -9,7 +9,7 @@ services:
       - headscale-data:/var/lib/headscale
     ports:
       - "8100:8100"
-      - "19090:9090"
+      - "19190:9090"
     healthcheck:
       test: ["CMD", "headscale", "health"]
       interval: 30s

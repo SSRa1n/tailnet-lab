@@ -37,16 +37,17 @@ dns:
 
 derp:
   server:
-    enabled: false
-  urls:
-    - https://controlplane.tailscale.com/derpmap/default
+    enabled: true
+    private_key_path: /var/lib/headscale/derp_server_private.key
+    stun_listen_addr: "0.0.0.0:3478"
+  urls: []
   auto_update_enabled: true
   update_frequency: 24h
 
 policy:
-  # mode: file
-  # path: /etc/headscale/acls.hujson
-  mode: database
+  mode: file
+  path: /etc/headscale/acls.hujson
+  # mode: database
 log:
   level: info
   format: text

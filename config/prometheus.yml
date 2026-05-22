@@ -12,6 +12,5 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets:
-          - namoworker:5252
-          - namoadmin:5252
-          - namocleaner:5252
+          - laptop-hj7lgaqh:5252
+          - desktop-m8cauv3:5252

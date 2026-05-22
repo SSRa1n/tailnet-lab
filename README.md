@@ -113,7 +113,7 @@ Copy the API key value into `config/headplane.yaml` as `root_api_key`.
 
 This stack exposes Headscale metrics and configures Prometheus to scrape them.
 - Headscale metrics are exposed in-container at `:9090` and mapped to
-   `http://localhost:19090/metrics` on the host.
+   `http://localhost:19190/metrics` on the host.
 - Prometheus UI (container) is available at `http://localhost:9091`.
 
   ### Some AI-Generated metrics that look interesting
